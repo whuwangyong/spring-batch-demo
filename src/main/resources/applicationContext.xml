@@ -9,13 +9,29 @@
     <bean id="transactionManager" class="org.springframework.batch.support.transaction.ResourcelessTransactionManager"/>
 
     <!-- 任务仓库 -->
-    <bean id="jobRepository" class="org.springframework.batch.core.repository.support.MapJobRepositoryFactoryBean">
-        <property name="transactionManager" ref="transactionManager"/>
+    <bean id = "jobRepository"
+          class = "org.springframework.batch.core.repository.support.JobRepositoryFactoryBean">
+        <property name = "dataSource" ref = "dataSource" />
+        <property name = "transactionManager" ref="transactionManager" />
+        <property name = "databaseType" value = "mysql" />
     </bean>
+
+
+
 
     <!-- 任务加载器 -->
     <bean id="jobLauncher" class="org.springframework.batch.core.launch.support.SimpleJobLauncher">
         <property name="jobRepository" ref="jobRepository"/>
     </bean>
+
+    <bean id = "dataSource"
+          class = "org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name = "driverClassName" value = "com.mysql.cj.jdbc.Driver" />
+        <property name = "url" value = "jdbc:mysql://localhost:3306/test?useUnicode=false&amp;characterEncoding=utf8&amp;serverTimezone=Asia/Shanghai&amp;useSSL=false" />
+        <property name = "username" value = "admin" />
+        <property name = "password" value = "admin" />
+    </bean>
+
+
 
 </beans>
